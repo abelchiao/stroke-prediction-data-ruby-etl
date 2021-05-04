@@ -61,3 +61,16 @@ class TransformDropFake
         row[:digit_count] == 10 ? row : nil
     end
 end
+
+class TransformCapName
+    def initialize(field:)
+        @field = field
+    end
+
+    def process(row)
+        # name = row[@field]
+        row[:yelled_name] = row[@field].upcase
+        row
+    end
+end
+

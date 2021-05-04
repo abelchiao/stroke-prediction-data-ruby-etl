@@ -22,3 +22,5 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+Data from: https://www.kaggle.com/fedesoriano/stroke-prediction-dataset
