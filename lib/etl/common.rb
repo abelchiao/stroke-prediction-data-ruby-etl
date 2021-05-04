@@ -15,6 +15,7 @@ class SourceCSV
                     row[field_name.downcase] = row.delete(field_name)
                 end
             end
+            
             yield(row)
         end
 
@@ -46,7 +47,7 @@ class DestinationCSV
 end
 
 class DestinationDB
-    def initialize()
+    def initialize
         @headers_processed = false
     end
 
