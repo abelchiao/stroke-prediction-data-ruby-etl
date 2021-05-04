@@ -254,3 +254,10 @@ Migrating to AddGenderWorktypeResidencetypeSmokingstatusEnumsToPatients (2021050
   ↳ bin/rails:9
   [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
   ↳ bin/rails:9
+  [1m[36mPatient Load (1.5ms)[0m  [1m[34mSELECT "patients".* FROM "patients"[0m
+  [1m[36mPatient Load (0.5ms)[0m  [1m[34mSELECT "patients".* FROM "patients"[0m
+  [1m[36mPatient Load (0.3ms)[0m  [1m[34mSELECT "patients".* FROM "patients"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mPatient Create (2.8ms)[0m  [1m[32mINSERT INTO "patients" ("id", "age", "hypertension", "heart_disease", "ever_married", "avg_glucose_level", "bmi", "stroke", "created_at", "updated_at", "gender", "work_type", "residence_type", "smoking_status") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING "id"[0m  [["id", 12003], ["age", 10000.0], ["hypertension", true], ["heart_disease", false], ["ever_married", true], ["avg_glucose_level", 10000000000.0], ["bmi", 999999.0], ["stroke", true], ["created_at", "2021-05-04 03:10:05.929670"], ["updated_at", "2021-05-04 03:10:05.929670"], ["gender", "male"], ["work_type", "never_worked"], ["residence_type", "urban"], ["smoking_status", "smokes"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mPatient Load (0.9ms)[0m  [1m[34mSELECT  "patients".* FROM "patients" ORDER BY "patients"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]

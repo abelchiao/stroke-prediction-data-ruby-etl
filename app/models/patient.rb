@@ -37,7 +37,7 @@ class Patient < ApplicationRecord
     }
 
     enum work_type: {
-        private: 'private',
+        privately_employed: 'private',
         self_employed: 'self_employed',
         children: 'children',
         government: 'government',
