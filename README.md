@@ -2,17 +2,19 @@
 
 Data from: https://www.kaggle.com/fedesoriano/stroke-prediction-dataset
 
-This project was an exercise in building an ETL (extract, transform, load) data pipeline in the context of a Ruby on Rails application. A CSV file containing 5,110 patient entries is read in, processed for uniformity/conformity with Ruby conventions, and either written to a new CSV or dumped to a PostgreSQL database. Rake tasks provide a CLI for initiating data import. 
+This project was an exercise in learning how to build an ETL (**E**xtract, **T**ransform, **L**oad) data pipeline in the context of a Ruby on Rails application. A CSV file containing 5,110 patient entries is read in, processed for uniformity/conformity with Ruby conventions, and either written to a new CSV or dumped to a PostgreSQL database. Rake tasks provide a CLI for initiating data import. 
 
-Example input:
+Example input (not all fields shown):
 id | gender | age | hypertension | ever_married | Residence_type | avg_glucose_level | smoking_status | stroke
 -- | ------ | --- | ------------ | ------------ | -------------- | ----------------- | -------------- | ------
 1665 | Female | 79 | 1 | Yes | Rural | 174.12 | never smoked | 1
+47582 | Male | 3 | 0 | No | Urban | 59.05 | Unknown | 0
 
 Example output:
 id | gender | age | hypertension | ever_married | residence_type | avg_glucose_level | smoking_status | stroke
 -- | ------ | --- | ------------ | ------------ | -------------- | ----------------- | -------------- | ------
-1665 | female | 79 | 1 | true | rural | 174.12 | never_smoked | true
+1665 | female | 79 | true | true | rural | 174.12 | never_smoked | true
+47582 | male | 3 | false | false | urban | 59.05 | unknown | false
 
 To run, clone and:
 ```
@@ -25,7 +27,7 @@ $ rake etl_csv
 To write to database:
 ```
 $ rails db:setup
-$ rake etl_csv
+$ rake etl_db
 ```
 <br>
 
@@ -57,7 +59,7 @@ end
 ___
 ## Extract
 
-The extract step reads in each row of the CSV, maps it to a hash, downcases the keys, and yields it to the transform steps.
+The extract step reads in each row of the CSV, maps it to a hash, downcases the keys, and then yields the row to the transform steps.
 
 ```ruby
 class SourceCSV
@@ -94,7 +96,7 @@ The workflow applies the following transformations to the data:
 * nil out missing fields
 * map field values to new values that are more consistent with Ruby conventions/downstream processes
 
-Example of transformation mapping 0/1 to true/false:
+Example of transform step that maps 0/1 to true/false:
 
 ```ruby
 class TransformBinaryFeatureToBool
@@ -204,7 +206,7 @@ ___
 # Useful resources:
 
 I found the following resources to be really helpful in learning how to put this all together:
-* [Build The World's Simplest ETL (Extract, Transform, Load) Pipeline in Ruby With Kiba](https://towardsdatascience.com/build-the-worlds-simplest-etl-extract-transform-load-pipeline-in-ruby-with-kiba-e7093a29d35)
 * [Kiba Wiki](https://github.com/thbar/kiba/wiki)
+* [Build The World's Simplest ETL (Extract, Transform, Load) Pipeline in Ruby With Kiba](https://towardsdatascience.com/build-the-worlds-simplest-etl-extract-transform-load-pipeline-in-ruby-with-kiba-e7093a29d35)
 * [How to run Kiba ETL in a Rails environment?](https://thibautbarrere.com/2015/09/26/how-to-run-kiba-in-a-rails-environment)
 * [Ruby on Rails - How to Create Perfect Enum in 5 Steps](https://sipsandbits.com/2018/04/30/using-database-native-enums-with-rails/)
