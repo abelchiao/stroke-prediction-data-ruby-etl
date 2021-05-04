@@ -2,7 +2,32 @@
 
 Data from: https://www.kaggle.com/fedesoriano/stroke-prediction-dataset
 
-This project was an exercise in building an ETL (extract, transform, load) data pipeline in the context of a Ruby on Rails application. A CSV file containing 5,110 patient entries is read in, processed for uniformity/conformity with Ruby conventions, and either written to a new CSV or dumped to a PostgreSQL database. Custom Rake tasks provided a CLI for initiating data import. 
+This project was an exercise in building an ETL (extract, transform, load) data pipeline in the context of a Ruby on Rails application. A CSV file containing 5,110 patient entries is read in, processed for uniformity/conformity with Ruby conventions, and either written to a new CSV or dumped to a PostgreSQL database. Rake tasks provide a CLI for initiating data import. 
+
+Example input:
+id | gender | age | hypertension | ever_married | Residence_type | avg_glucose_level | smoking_status | stroke
+-- | ------ | --- | ------------ | ------------ | -------------- | ----------------- | -------------- | ------
+1665 | Female | 79 | 1 | Yes | Rural | 174.12 | never smoked | 1
+
+Example output:
+id | gender | age | hypertension | ever_married | residence_type | avg_glucose_level | smoking_status | stroke
+-- | ------ | --- | ------------ | ------------ | -------------- | ----------------- | -------------- | ------
+1665 | female | 79 | 1 | true | rural | 174.12 | never_smoked | true
+
+To run, clone and:
+```
+$ bundle install
+```
+To write to CSV:
+```
+$ rake etl_csv
+```
+To write to database:
+```
+$ rails db:setup
+$ rake etl_csv
+```
+<br>
 
 The [Kiba gem](https://github.com/thbar/kiba) was used to write extract, transform, load logic. The following provides an overview of the ETL process.
 
