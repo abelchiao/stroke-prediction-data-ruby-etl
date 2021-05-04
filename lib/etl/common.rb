@@ -9,7 +9,13 @@ class SourceCSV
         csv = CSV.open(@filename, headers:true)
 
         csv.each do |row|
-            yield(row.to_hash)
+            row = row.to_hash
+            row.keys.each do |field_name|
+                if field_name != field_name.downcase
+                    row[field_name.downcase] = row.delete(field_name)
+                end
+            end
+            yield(row)
         end
 
         csv.close
@@ -40,23 +46,29 @@ class DestinationCSV
 end
 
 class TransformDowncase
-    def initialize(field:)
-        @field = field
+    def initialize(fields:)
+        @fields = fields
     end
 
     def process(row)
-        row[@field].downcase!
+        @fields.each do |field|
+            row[field].downcase!
+        end
+        # row[@field].downcase!
         row
     end
 end
 
 class TransformBinaryFeatureToBool
-    def initialize(field:)
-        @field = field
+    def initialize(fields:)
+        @fields = fields
     end
 
     def process(row)
-        row[@field] = !!row[@field]
+        @fields.each do |field|
+            row[field] = !!row[field]
+        end
+        # row[@field] = !!row[@field]
         row
     end
 end
