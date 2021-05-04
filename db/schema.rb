@@ -10,25 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_04_010945) do
+ActiveRecord::Schema.define(version: 2021_05_04_023720) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "patients", force: :cascade do |t|
-    t.integer "gender"
-    t.float "age"
-    t.boolean "hypertension"
-    t.boolean "heart_disease"
-    t.boolean "ever_married"
-    t.integer "work_type"
-    t.integer "residence_type"
-    t.float "avg_glucose_level"
-    t.float "bmi"
-    t.integer "smoking_status"
-    t.boolean "stroke"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
+# Could not dump table "patients" because of following StandardError
+#   Unknown type 'patient_genders' for column 'gender'
 
 end
