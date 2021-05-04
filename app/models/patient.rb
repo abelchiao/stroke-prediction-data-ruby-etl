@@ -18,5 +18,29 @@
 #  updated_at        :datetime         not null
 #
 class Patient < ApplicationRecord
-    
+    enum gender: {
+        male: 'male',
+        female: 'female',
+        other: 'other'
+    }
+
+    enum residence_type: {
+        urban: 'urban',
+        rural: 'rural'
+    }
+
+    enum smoking_status: {
+        unknown: 'unknown',
+        never_smoked: 'never_smoked',
+        formerly_smoked: 'formerly_smoked',
+        smokes: 'smokes'
+    }
+
+    enum work_type: {
+        private: 'private',
+        self_employed: 'self_employed',
+        children: 'children',
+        government: 'government',
+        never_worked: 'never_worked'
+    }
 end
