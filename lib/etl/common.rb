@@ -45,6 +45,25 @@ class DestinationCSV
     end
 end
 
+class DestinationDB
+    def initialize()
+        @headers_processed = false
+    end
+
+    def write(row)
+        if !@headers_processed
+            @headers_processed = true
+        end
+        
+        if Patient.exists?(row['id'])
+            patient = Patient.find(row['id'])
+            patient.update(row)
+        else
+            Patient.create(row)
+        end
+    end
+end
+
 class TransformDowncase
     def initialize(fields:)
         @fields = fields
@@ -54,7 +73,7 @@ class TransformDowncase
         @fields.each do |field|
             row[field].downcase!
         end
-        # row[@field].downcase!
+
         row
     end
 end
@@ -68,11 +87,59 @@ class TransformBinaryFeatureToBool
         @fields.each do |field|
             row[field] = !!row[field]
         end
-        # row[@field] = !!row[@field]
+
         row
     end
 end
 
+class TransformMapYesNoToBool
+    def initialize(field:)
+        @field = field
+    end
+
+    def process(row)
+        row[@field] = row[@field].downcase == 'yes' ? true : false
+        row
+    end
+end
+
+class TransformReplaceSpacesDashesWithUnderscores
+    def initialize(field:)
+        @field = field
+    end
+
+    def process(row)
+        row[@field] = row[@field].split('-').join('_')
+        row[@field] = row[@field].split(' ').join('_')
+        row
+    end
+end
+
+class TransformNilOutMissingFields
+    def initialize(field:)
+        @field = field
+    end
+
+    def process(row)
+        row[@field] = row[@field] == 'N/A' ? nil : row[@field]
+        row
+    end
+end
+
+class TransformMapField
+    def initialize(field:, old_val:, new_val:)
+        @field = field
+        @old_val = old_val
+        @new_val = new_val
+    end
+
+    def process(row)
+        if row[@field] = @old_val
+            row[@field] = @new_val
+        end
+        row
+    end
+end
 
 # class TransformClean
 #     def initialize(field:)
